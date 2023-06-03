@@ -19,15 +19,29 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.text.input.TextFieldValue
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.*
 import java.awt.TextField
+import Region
+import Attraction
+import City
 
 
 enum class State {
     Parser,
     Generator;
+}
+
+sealed class FunctionType {
+    object Attractions : FunctionType()
+    object Text : FunctionType()
 }
 
 val NAV_BAR_HEIGHT = 30.dp
@@ -117,7 +131,7 @@ fun MainPage(state: State, list: SnapshotStateList<String>) {
 
         when (state) {
             State.Parser -> {
-                ShowHotels(list)
+                ToggleButton(list)
             }
 
 
@@ -192,6 +206,168 @@ fun ButtonComponent(onClick: () -> Unit) {
         }
     }
 }
+@Composable
+fun ShowAttractions(
+    regions: Map<String, Region>,
+    jsonFilePath: String
+) {
+    Json { ignoreUnknownKeys = true }
+    val updatedRegions = remember { mutableStateOf(regions.toMutableMap()) }
+    val entries = remember(updatedRegions) { updatedRegions.value.entries.toList() }
+    Box(modifier = Modifier.fillMaxSize()) {
+        val state = rememberLazyListState()
+        LazyColumn(
+            Modifier.fillMaxSize().padding(end = 12.dp), state
+        ) {
+
+            item {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 85.dp)
+                ) {
+                    Text(
+                        text = "Attraction name",
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = "City",
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = "Region",
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = "Coordinates",
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center
+                    )
+
+                }
+            }
+            regions.forEach { (regionName, region) ->
+                region.cities.forEach { (cityName, city) ->
+                    city.nearby.forEach { (nearbyName, attractions) ->
+
+                        itemsIndexed(attractions) { index, attraction ->
+                            val attractionIndex = index;
+                            // Call your composable function here
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .padding(all = 10.dp)
+                                    .border(
+                                        width = 1.dp,
+                                        color = Color.Black,
+                                        shape = RoundedCornerShape(8.dp)
+                                    )
+                                    .padding(30.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.LocationOn,
+                                    contentDescription = "Item",
+                                    modifier = Modifier.size(40.dp),
+                                    tint = Color.Black
+                                )
+                                Spacer(modifier = Modifier.width(20.dp))
+                                var isEditing by remember { mutableStateOf(false) }
+                                var editedAttractionName by remember { mutableStateOf(attraction.name) }
+                                var editedCityName by remember { mutableStateOf(cityName) }
+                                var editedRegionName by remember { mutableStateOf(regionName) }
+                                var editedCoordinates by remember {
+                                    mutableStateOf(attraction.coordinates.joinToString(", "))
+                                }
+
+                                if (isEditing) {
+                                    TextField(
+                                        value = editedAttractionName,
+                                        onValueChange = { editedAttractionName = it },
+                                        modifier = Modifier.weight(1f)
+                                    )
+                                    TextField(
+                                        value = editedCityName,
+                                        onValueChange = { editedCityName = it },
+                                        modifier = Modifier.weight(1f)
+                                    )
+                                    TextField(
+                                        value = editedRegionName,
+                                        onValueChange = { editedRegionName = it },
+                                        modifier = Modifier.weight(1f)
+                                    )
+                                    TextField(
+                                        value = editedCoordinates,
+                                        onValueChange = { editedCoordinates = it },
+                                        modifier = Modifier.weight(1f)
+                                    )
+                                } else {
+                                    Text(
+                                        text = if (attraction.name == "coordinates" || attraction.name.isEmpty()) {
+                                            nearbyName
+                                        } else {
+                                            attraction.name
+                                        },
+                                        modifier = Modifier.weight(1f),
+                                        textAlign = TextAlign.Center
+                                    )
+                                    Text(
+                                        cityName,
+                                        modifier = Modifier.weight(1f),
+                                        textAlign = TextAlign.Center
+                                    )
+                                    Text(
+                                        regionName,
+                                        modifier = Modifier.weight(1f),
+                                        textAlign = TextAlign.Center
+                                    )
+                                    Text(
+                                        attraction.coordinates.joinToString(", "),
+                                        modifier = Modifier.weight(1f),
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+
+                                Spacer(modifier = Modifier.width(50.dp))
+
+                                IconButton(
+                                    onClick = {isEditing=!isEditing},
+                                    modifier = Modifier.align(Alignment.CenterVertically)
+                                ) {
+                                    Icon(
+                                        imageVector = if (isEditing) Icons.Default.Done else Icons.Default.Edit,
+                                        contentDescription = if (isEditing) "Save" else "Edit"
+                                    )
+                                }
+
+                                IconButton(
+                                    onClick = {isEditing=!isEditing},
+                                    modifier = Modifier.align(Alignment.CenterVertically)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Delete,
+                                        contentDescription = "Remove"
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+        VerticalScrollbar(
+            modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
+            adapter = rememberScrollbarAdapter(
+                scrollState = state
+            )
+        )
+
+    }
+
+
+}
 
 @Composable
 @Preview
@@ -217,6 +393,88 @@ fun fileToList(inputfile: File): MutableList<String> {
         list.add(line)
     }
     return list
+}
+fun getRegionsFromJson(jsonFilePath: String): Map<String, Region> {
+    val json = Json { ignoreUnknownKeys = true }
+    val jsonContent = File(jsonFilePath).readText()
+    return json.decodeFromString(jsonContent)
+}
+
+@Composable
+fun ToggleButton(list: SnapshotStateList<String>) {
+    val context = LocalContextMenuRepresentation.current
+    val currentFunction = remember { mutableStateOf<FunctionType>(FunctionType.Attractions) }
+    Column(
+
+    ) {
+        Row() {
+            Button(
+                onClick = {
+                    currentFunction.value = FunctionType.Attractions
+                },
+                modifier =
+                Modifier
+                    .fillMaxWidth().weight(1f)
+                    .height(NAV_BAR_HEIGHT),
+
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan)
+
+            ) {
+                Icon(
+                    imageVector = Icons.Default.LocationOn,
+                    contentDescription = "Menu",
+                    modifier = Modifier.size(18.dp),
+
+                    tint = Color.Black
+
+                )
+                Text(text = "Show Attractions")
+            }
+
+            Button(
+                onClick = {
+                    currentFunction.value = FunctionType.Text
+                },
+                modifier =
+                Modifier
+                    .fillMaxWidth().weight(1f)
+                    .height(NAV_BAR_HEIGHT),
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan)
+
+
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Home,
+                    contentDescription = "Menu",
+                    modifier = Modifier.size(18.dp),
+
+                    tint = Color.Black
+
+                )
+                Text(text = "Show Hotels")
+            }
+
+        }
+        Spacer(Modifier.padding(bottom = 10.dp))
+        when (currentFunction.value) {
+            is FunctionType.Attractions -> {
+                val regions = getRegionsFromJson("PPJ/src/jvmMain/resources/output_sample.json")
+                val updatedRegionsState = remember { mutableStateOf(regions) }
+                //val regions = updatedRegionsState.value
+                val jsonFilePath = "PPJ/src/jvmMain/resources/output_sample.json"
+                ShowAttractions(
+                    regions = regions,
+                    jsonFilePath = jsonFilePath
+                )
+            }
+
+            is FunctionType.Text -> {
+                ShowHotels(list)
+            }
+
+        }
+    }
+
 }
 
 fun main() = application {

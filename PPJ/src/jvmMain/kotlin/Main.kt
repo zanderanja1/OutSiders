@@ -9,8 +9,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import kotlinx.serialization.Serializable
 
+@Serializable
+data class Attraction(var name: String, val coordinates: List<Double>)
 
+@Serializable
+data class City(val nearby: MutableMap<String, MutableList<Attraction>>)
+
+@Serializable
+data class Region(val cities: MutableMap<String, City>)
 fun main() {
     println("hello world")
 }
