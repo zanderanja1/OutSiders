@@ -45,7 +45,138 @@ sealed class FunctionType {
 }
 
 val NAV_BAR_HEIGHT = 30.dp
+@Composable
+fun AddLocationToList(
+    updatedRegions: MutableState<Map<String, Region>>,
+) {
+    val json = Json { ignoreUnknownKeys = true }
+    //val updatedRegions = remember { mutableStateOf(regions.toMutableMap()) }
+    val regionInput = remember { mutableStateOf(TextFieldValue()) }
+    val cityInput = remember { mutableStateOf(TextFieldValue()) }
+    val nearbyInput = remember { mutableStateOf(TextFieldValue()) }
+    val nameInput = remember { mutableStateOf(TextFieldValue()) }
+    val latInput = remember { mutableStateOf(TextFieldValue()) }
+    val lngInput = remember { mutableStateOf(TextFieldValue()) }
 
+    Row(modifier = Modifier.padding(10.dp)) {
+        TextField(
+            value = regionInput.value,
+            onValueChange = { regionInput.value = it },
+            label = { Text("Region") }
+
+        )
+        Spacer(modifier = Modifier.padding(10.dp))
+        TextField(
+            value = cityInput.value,
+            onValueChange = { cityInput.value = it },
+            label = { Text("City") }
+        )
+        Spacer(modifier = Modifier.padding(10.dp))
+        TextField(
+            value = latInput.value,
+            onValueChange = { latInput.value = it },
+            label = { Text("Latitude") }
+        )
+
+    }
+    Row(modifier = Modifier.padding(10.dp)) {
+        TextField(
+            value = nameInput.value,
+            onValueChange = { nameInput.value = it },
+            label = { Text("Name") }
+        )
+        Spacer(modifier = Modifier.padding(10.dp))
+        TextField(
+            value = nearbyInput.value,
+            onValueChange = { nearbyInput.value = it },
+            label = { Text("Nearby") }
+        )
+        Spacer(modifier = Modifier.padding(10.dp))
+        TextField(
+            value = lngInput.value,
+            onValueChange = { lngInput.value = it },
+            label = { Text("Longitude") }
+        )
+    }
+
+    Button(
+        onClick = {
+            val region = regionInput.value.text
+            val city = cityInput.value.text
+            val nearby = nearbyInput.value.text
+            val name = nameInput.value.text
+            val lat = latInput.value.text.toDoubleOrNull() ?: 0.0
+            val lng = lngInput.value.text.toDoubleOrNull() ?: 0.0
+            SaveAttractionToJSON(updatedRegions, region, name, nearby, listOf(lat, lng))
+
+            // Clear the input values
+            regionInput.value = TextFieldValue()
+            cityInput.value = TextFieldValue()
+            nearbyInput.value = TextFieldValue()
+            nameInput.value = TextFieldValue()
+            latInput.value = TextFieldValue()
+            lngInput.value = TextFieldValue()
+        }
+    ) {
+        Text("Save")
+    }
+
+}
+fun SaveAttractionToJSON(
+    regions: MutableState<Map<String, Region>>,
+    regionName: String,
+    attractionName: String,
+    nearbyName: String,
+    coordinates: List<Double>,
+) {
+    val region = regions.value[regionName]
+    if (region != null) {
+        val city = region.cities.values.firstOrNull()
+        if (city != null) {
+            val nearby = city.nearby[nearbyName]
+            if (nearby != null) {
+                if (attractionName.isNotEmpty()) {
+                    // Update existing attraction
+                    val attraction = nearby.find { it.name == attractionName }
+                    if (attraction != null) {
+                        attraction.coordinates = coordinates
+                    } else {
+                        val newAttraction = Attraction(attractionName, coordinates)
+                        nearby.add(newAttraction)
+                    }
+                } else {
+                    // Add new attraction
+                    val newAttraction = Attraction("coordinates", coordinates)
+                    nearby.add(newAttraction)
+                }
+            } else {
+                // Create new nearby list with the attraction
+                val newNearby = mutableListOf(Attraction("coordinates", coordinates))
+                city.nearby[nearbyName] = newNearby
+
+            }
+        } else {
+            // Create new city and nearby list with the attraction
+            val newNearby = mutableMapOf(nearbyName to mutableListOf(Attraction(attractionName, coordinates)))
+            region.cities[regionName] = City(newNearby)
+        }
+    } else {
+        // Create new region, city, and nearby list with the attraction
+        val newNearby = mutableMapOf(nearbyName to mutableListOf(Attraction(attractionName, coordinates)))
+        val newCity = mutableMapOf(regionName to City(newNearby))
+        regions.value = regions.value.toMutableMap() + Pair(regionName, Region(newCity))
+    }
+
+    // Save the updated regions to the JSON file
+    val json = Json { ignoreUnknownKeys = true }
+    val updatedJsonContent = json.encodeToString(regions.value)
+    File("src/jvmMain/resources/output_sample.json").writeText(updatedJsonContent)
+}
+fun saveUpdatedAttraction(regions: Map<String, Region>, jsonFilePath: String) {
+    val json = Json { ignoreUnknownKeys = true }
+    val updatedJsonContent = json.encodeToString(regions)
+    File(jsonFilePath).writeText(updatedJsonContent)
+}
 @Composable
 fun ShowHotels(list: SnapshotStateList<String>) {
     Box {

@@ -12,7 +12,7 @@ import androidx.compose.ui.window.application
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Attraction(var name: String, val coordinates: List<Double>)
+data class Attraction(var name: String, var coordinates: List<Double>)
 
 @Serializable
 data class City(val nearby: MutableMap<String, MutableList<Attraction>>)

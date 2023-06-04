@@ -1,1 +1,79 @@
-{"Gorenjska":{"cities":{"Bled":{"nearby":{"Blejski grad":[{"name":"Grajska kapelaa","coordinates":[46.3683266,14.1145798]},{"name":"Grajska restavracija","coordinates":[46.370784,14.1011639]},{"name":"","coordinates":[1.0,1.0]},{"name":"Grasjki kurac","coordinates":[1.0,1.0]}],"Blejski otok":[{"name":"Marijina cerkev","coordinates":[46.3721279,14.1038865]},{"name":"Proštija (razstava, spominki)","coordinates":[46.3683266,14.1145798]}],"Camping Bled":[],"Grajski kurac":[{"name":"","coordinates":[1.0,1.0]}]}}}},"a":{"cities":{"a":{"nearby":{"a":[],"b":[{"name":"","coordinates":[1.0,1.0]}],"c":[],"d":[]}}}}}
+{
+    "Gorenjska": {
+        "cities": {
+            "Bled": {
+                "district": {
+                    "Blejski grad": [
+                        {
+                            "name": "Grajska kapelaa",
+                            "coordinates": [
+                                46.3683266,
+                                14.1145798
+                            ]
+                        },
+                        {
+                            "name": "Grajska restavracija",
+                            "coordinates": [
+                                46.370784,
+                                14.1011639
+                            ]
+                        },
+                        {
+                            "name": "",
+                            "coordinates": [
+                                1.0,
+                                1.0
+                            ]
+                        }  
+                    ],
+                    "Blejski otok": [
+                        {
+                            "name": "Marijina cerkev",
+                            "coordinates": [
+                                46.3721279,
+                                14.1038865
+                            ]
+                        },
+                        {
+                            "name": "Proštija (razstava, spominki)",
+                            "coordinates": [
+                                46.3683266,
+                                14.1145798
+                            ]
+                        }
+                    ],
+                    "Camping Bled": [],
+                    "Grajski kurac": [
+                        {
+                            "name": "",
+                            "coordinates": [
+                                1.0,
+                                1.0
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "a": {
+        "cities": {
+            "a": {
+                "nearby": {
+                    "a": [],
+                    "b": [
+                        {
+                            "name": "",
+                            "coordinates": [
+                                1.0,
+                                1.0
+                            ]
+                        }
+                    ],
+                    "c": [],
+                    "d": []
+                }
+            }
+        }
+    }
+}
