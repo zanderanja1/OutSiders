@@ -1,4 +1,4 @@
-var UserModel = require('../models/userModel.js');
+var RegionModel = require('../models/regionModel.js');
 var bcrypt = require('bcrypt');
 
 /**
@@ -14,17 +14,21 @@ module.exports = {
      */
     list: async function (req, res) {
         try {
-            // Call the initialize function to get the User collection
-            const User = await UserModel.initialize();
+            // Call the initialize function to get the Attraction collection
+            const Region = await RegionModel.initialize();
 
-            // Perform the query on the User collection
-            const users = await User.find().toArray();
+            // Perform the aggregate query on the Attraction collection
+            const aggregateResult = await Region.find()
 
-            res.json(users);
+
+            // Convert the aggregate result to an array of documents
+            const results = await aggregateResult.toArray();
+
+            res.json(results);
         } catch (error) {
             console.log(error);
             res.status(500).json({
-                message: 'Error when getting users.',
+                message: 'Error when getting attractions.',
                 error: error
             });
         }
@@ -56,36 +60,19 @@ module.exports = {
      * userController.create()
      */
     create: async function (req, res) {
-        var password;
-        bcrypt.hash(req.body.username, 10, function (err, hash) {
-            if (err) {
-                return res.status(500).json('error');
-            }
-            password = hash;
-        });
         try {
-            const User = await UserModel.initialize();
+            const Region = await RegionModel.initialize();
 
-            const usernameExists = await User.findOne({ username: req.body.username });
-            if (usernameExists) {
-                console.log("username exists")
-                return res.status(500).json('Username already exists');
+            const regionExists = await Region.findOne({ name: req.body.name });
+            if(regionExists){
+                return res.status(200).json(regionExists)
             }
-
-            const emailExists = await User.findOne({ email: req.body.email });
-            if (emailExists) {
-                console.log("email exists")
-                return res.status(500).json('Email already exists');
-            }
-            const newUser = {
-                name: req.body.username,
-                password: password,
-                email: req.body.email,
-                admin: false,
+            const newRegion = {
+                name: req.body.name
             };
-            const result = await User.insertOne(newUser);
+            const result = await Region.insertOne(newRegion);
             console.log('result:', result);
-            res.status(201).json(newUser)
+            res.status(201).json(newRegion)
 
         } catch (err) {
             console.log('Error inserting data:', err);

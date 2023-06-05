@@ -48,6 +48,40 @@ module.exports = {
             });
         }
     },
+    listEvery: async function (req, res) {
+        try {
+            // Call the initialize function to get the User collection
+            console.log("we in")
+            const Attraction = await AttractionModel.initialize();
+            // Perform the aggregate query on the Attraction collection
+            const aggregateResult = await Attraction.aggregate([
+              {
+                $lookup: {
+                    from: "district",
+                    localField: "districtId",
+                    foreignField: "_id",
+                    as: "district"
+                }
+              },
+              {
+                $unwind: "$district"
+              }
+              
+            ]);
+            
+            
+            const results = await aggregateResult.toArray();
+            console.log(results)
+            res.status(200).json(results);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                message: 'Error when getting cities.',
+                error: error
+            });
+        }
+    },
+    
     /**
      * userController.show()
      */
@@ -75,36 +109,24 @@ module.exports = {
      * userController.create()
      */
     create: async function (req, res) {
-        var password;
-        bcrypt.hash(req.body.username, 10, function (err, hash) {
-            if (err) {
-                return res.status(500).json('error');
-            }
-            password = hash;
-        });
+    
         try {
-            const User = await UserModel.initialize();
+            const Attraction = await AttractionModel.initialize();
 
-            const usernameExists = await User.findOne({ username: req.body.username });
-            if (usernameExists) {
-                console.log("username exists")
-                return res.status(500).json('Username already exists');
+            const attractionExists = await Attraction.findOne({ name: req.body.name });
+            if (attractionExists) {
+                console.log("attraction exists")
+                return res.status(500).json('attracction already exists');
             }
 
-            const emailExists = await User.findOne({ email: req.body.email });
-            if (emailExists) {
-                console.log("email exists")
-                return res.status(500).json('Email already exists');
-            }
-            const newUser = {
-                name: req.body.username,
-                password: password,
-                email: req.body.email,
-                admin: false,
+            const newAttraction = {
+                name: req.body.name,
+                districtId: req.body.districtId,
+                coordinates: req.body.coordinates,
             };
-            const result = await User.insertOne(newUser);
+            const result = await Attraction.insertOne(newAttraction);
             console.log('result:', result);
-            res.status(201).json(newUser)
+            res.status(201).json(newAttraction)
 
         } catch (err) {
             console.log('Error inserting data:', err);
@@ -120,7 +142,6 @@ module.exports = {
         try {
             var id = req.params.id;
             const name = req.body.name;
-            const district = req.body.district;
             const coordinates = req.body.coordinates;
             const updatedData = req.body;
 
@@ -131,8 +152,7 @@ module.exports = {
                 .updateOne(
                     { "_id": ObjectId(id) },
                     { $set: { "name": name } },
-                    { $set: { "coordinates": coordinates } },
-                    { $set: { "districtId": district } }
+                    { $set: { "coordinates": coordinates } }
                 )
             console.log("ok")
             res.sendStatus(200);

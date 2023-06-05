@@ -7,6 +7,9 @@ import Register from "./components/Register";
 import Profile from "./components/Profile";
 import Logout from "./components/Logout";
 import Attractions from "./components/Attractions";
+import CreateAttractions from "./components/CreateAttraction";
+import Graphs from "./components/Graphs";
+
 
 function App() {
 
@@ -30,6 +33,9 @@ function App() {
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/logout" element={<Logout />}></Route>
             <Route path="/attractions" element={<Attractions />}></Route>
+            <Route path="/createAttraction" element={<CreateAttractions />}></Route>
+            <Route path="/graphs" element={<Graphs />}></Route>
+
           </Routes>
         </div>
       </UserContext.Provider>

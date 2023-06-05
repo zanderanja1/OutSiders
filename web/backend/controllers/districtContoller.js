@@ -1,5 +1,6 @@
 var DistrictModel = require('../models/districtModel.js');
 var bcrypt = require('bcrypt');
+var ObjectId = require('mongodb').ObjectId;
 
 /**
  * userController.js
@@ -50,6 +51,39 @@ module.exports = {
             });
         }
     },
+    listEvery: async function (req, res) {
+        try {
+            // Call the initialize function to get the User collection
+            console.log("we in")
+            const District = await DistrictModel.initialize();
+            // Perform the aggregate query on the Attraction collection
+            const aggregateResult = await District.aggregate([
+              {
+                $lookup: {
+                    from: "city",
+                    localField: "cityId",
+                    foreignField: "_id",
+                    as: "city"
+                  }
+              },
+              {
+                $unwind: "$city"
+              }
+              
+            ]);
+            
+            
+            const results = await aggregateResult.toArray();
+            console.log(results)
+            res.status(200).json(results);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                message: 'Error when getting cities.',
+                error: error
+            });
+        }
+    },
     /**
      * userController.show()
      */
@@ -77,79 +111,90 @@ module.exports = {
      * userController.create()
      */
     create: async function (req, res) {
-        var password;
-        bcrypt.hash(req.body.username, 10, function (err, hash) {
-            if (err) {
-                return res.status(500).json('error');
-            }
-            password = hash;
-        });
         try {
-            const User = await UserModel.initialize();
+            const District = await DistrictModel.initialize();
 
-            const usernameExists = await User.findOne({ username: req.body.username });
-            if (usernameExists) {
-                console.log("username exists")
-                return res.status(500).json('Username already exists');
+            const districtExists = await District.findOne({ name: req.body.name });
+            if(districtExists){
+                return res.status(200).json(districtExists)
             }
-
-            const emailExists = await User.findOne({ email: req.body.email });
-            if (emailExists) {
-                console.log("email exists")
-                return res.status(500).json('Email already exists');
-            }
-            const newUser = {
-                name: req.body.username,
-                password: password,
-                email: req.body.email,
-                admin: false,
+            const newDistrict = {
+                name: req.body.name,
+                cityId: req.body.cityId
             };
-            const result = await User.insertOne(newUser);
+            const result = await District.insertOne(newDistrict);
             console.log('result:', result);
-            res.status(201).json(newUser)
+            return res.status(201).json(newDistrict)
 
         } catch (err) {
             console.log('Error inserting data:', err);
             return res.status(500).json('Error inserting data');
         }
     },
+    listNames: async function (req, res) {
+        try {
+            // Call the initialize function to get the Attraction collection
+            const District = await DistrictModel.initialize();
 
+            // Perform the aggregate query on the Attraction collection
+            const cityName = req.params.name;
+            const aggregateResult = await District.aggregate([
+                {
+                  $lookup: {
+                    from: "city",
+                    localField: "cityId",
+                    foreignField: "_id",
+                    as: "city"
+                  }
+                },
+                {
+                  $unwind: "$city"
+                },
+                {
+                  $match: {
+                    "city.name": cityName
+                  }
+                }
+              ]);
+              
+            // Convert the aggregate result to an array of documents
+            const results = await aggregateResult.toArray();
+
+            res.json(results);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                message: 'Error when getting attractions.',
+                error: error
+            });
+        }
+    },
 
     /**
      * userController.update()
      */
-    update: function (req, res) {
-        var id = req.params.id;
+    update: async function (req, res) {
+        try {
+            var id = req.params.id;
+            const name = req.body.name;
+            const updatedData = req.body;
 
-        UserModel.findOne({ _id: id }, function (err, user) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when getting user',
-                    error: err
-                });
-            }
+            const District = await DistrictModel.initialize();
 
-            if (!user) {
-                return res.status(404).json({
-                    message: 'No such user'
-                });
-            }
+            // Perform the aggregate query on the Attraction collection
+            await District
+                .updateOne(
+                    { "_id": ObjectId(id) },
+                    { $set: { "name": name } }
+                )
+            console.log("ok")
+            res.sendStatus(200);
 
-            user.username = req.body.username ? req.body.username : user.username;
-            user.password = req.body.password ? req.body.password : user.password;
-            user.email = req.body.email ? req.body.email : user.email;
+        } catch (error) {
+            console.error('Error updating district:', error);
+            res.sendStatus(500);
+        }
 
-            user.save(function (err, user) {
-                if (err) {
-                    return res.status(500).json({
-                        message: 'Error when updating user.',
-                        error: err
-                    });
-                }
-
-                return res.json(user);
-            });
-        });
     },
 
     /**

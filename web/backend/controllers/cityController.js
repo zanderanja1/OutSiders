@@ -1,5 +1,6 @@
 var CityModel = require('../models/cityModel.js');
 var bcrypt = require('bcrypt');
+var ObjectId = require('mongodb').ObjectId;
 
 /**
  * userController.js
@@ -45,6 +46,77 @@ module.exports = {
             console.log(error);
             res.status(500).json({
                 message: 'Error when getting regions.',
+                error: error
+            });
+        }
+    },
+    listEvery: async function (req, res) {
+        try {
+            // Call the initialize function to get the User collection
+            console.log("we in")
+            const city = await CityModel.initialize();
+            // Perform the aggregate query on the Attraction collection
+            const aggregateResult = await city.aggregate([
+              {
+                $lookup: {
+                  from: "region",
+                  localField: "regionId",
+                  foreignField: "_id",
+                  as: "region"
+                }
+              },
+              {
+                $unwind: "$region"
+              }
+              
+            ]);
+            
+            
+            const results = await aggregateResult.toArray();
+            console.log(results)
+            res.status(200).json(results);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                message: 'Error when getting cities.',
+                error: error
+            });
+        }
+    },
+    listNames: async function (req, res) {
+        try {
+            // Call the initialize function to get the Attraction collection
+            const City = await CityModel.initialize();
+
+            // Perform the aggregate query on the Attraction collection
+            const regionName = req.params.name;
+            const aggregateResult = await City.aggregate([
+                {
+                  $lookup: {
+                    from: "region",
+                    localField: "regionId",
+                    foreignField: "_id",
+                    as: "region"
+                  }
+                },
+                {
+                  $unwind: "$region"
+                },
+                {
+                  $match: {
+                    "region.name": regionName
+                  }
+                }
+              ]);
+              
+            // Convert the aggregate result to an array of documents
+            const results = await aggregateResult.toArray();
+
+            res.json(results);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                message: 'Error when getting attractions.',
                 error: error
             });
         }
@@ -117,38 +189,28 @@ module.exports = {
     /**
      * userController.update()
      */
-    update: function (req, res) {
-        var id = req.params.id;
+    update: async function (req, res) {
+        try {
+            var id = req.params.id;
+            const name = req.body.name;
+            const updatedData = req.body;
 
-        UserModel.findOne({ _id: id }, function (err, user) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when getting user',
-                    error: err
-                });
-            }
+            const City = await CityModel.initialize();
 
-            if (!user) {
-                return res.status(404).json({
-                    message: 'No such user'
-                });
-            }
+            // Perform the aggregate query on the Attraction collection
+            await City
+                .updateOne(
+                    { "_id": ObjectId(id) },
+                    { $set: { "name": name } }
+                )
+            console.log("ok")
+            res.sendStatus(200);
 
-            user.username = req.body.username ? req.body.username : user.username;
-            user.password = req.body.password ? req.body.password : user.password;
-            user.email = req.body.email ? req.body.email : user.email;
+        } catch (error) {
+            console.error('Error updating attraction:', error);
+            res.sendStatus(500);
+        }
 
-            user.save(function (err, user) {
-                if (err) {
-                    return res.status(500).json({
-                        message: 'Error when updating user.',
-                        error: err
-                    });
-                }
-
-                return res.json(user);
-            });
-        });
     },
 
     /**

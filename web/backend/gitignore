@@ -1,9 +1,0 @@
-.idea/
-.gradle/
-build/
-node_modules/
-.node_modules/
-web/backend/node_modules/
-.web/backend/node_modules/
-backend/node_modules/
-.backend/node_modules/
