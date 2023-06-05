@@ -340,7 +340,8 @@ fun ButtonComponent(onClick: () -> Unit) {
 @Composable
 fun ShowAttractions(
     regions: Map<String, Region>,
-    jsonFilePath: String
+    jsonFilePath: String,
+    onSave: (Map<String, Region>) -> Unit,
 ) {
     Json { ignoreUnknownKeys = true }
     val updatedRegions = remember { mutableStateOf(regions.toMutableMap()) }
@@ -463,7 +464,26 @@ fun ShowAttractions(
                                 Spacer(modifier = Modifier.width(50.dp))
 
                                 IconButton(
-                                    onClick = {isEditing=!isEditing},
+                                    onClick = {
+                                        if (isEditing) {
+                                            // Update the edited values
+                                            val updatedAttractions =
+                                                updatedRegions.value[regionName]?.cities?.get(cityName)?.nearby?.get(
+                                                    nearbyName
+                                                )
+                                            updatedAttractions?.get(attractionIndex)?.name = editedAttractionName
+                                            updatedAttractions?.get(attractionIndex)?.coordinates =
+                                                editedCoordinates.split(",").map {
+                                                    it.trim().toDoubleOrNull() ?: 0.0
+                                                }
+                                            updatedRegions.value[regionName]?.cities?.get(cityName)?.nearby?.set(
+                                                nearbyName,
+                                                updatedAttractions ?: mutableListOf()
+                                            )
+                                            onSave(updatedRegions.value) // Invoke the onSave callback with updatedRegions.value
+                                        }
+                                        isEditing = !isEditing
+                                    },
                                     modifier = Modifier.align(Alignment.CenterVertically)
                                 ) {
                                     Icon(
@@ -473,7 +493,20 @@ fun ShowAttractions(
                                 }
 
                                 IconButton(
-                                    onClick = {isEditing=!isEditing},
+                                    onClick = {
+                                        val updatedAttractions =
+                                            updatedRegions.value[regionName]?.cities?.get(cityName)?.nearby?.get(
+                                                nearbyName
+                                            )
+                                        updatedAttractions?.removeAt(attractionIndex)
+                                        updatedRegions.value[regionName]?.cities?.get(cityName)?.nearby?.set(
+                                            nearbyName,
+                                            updatedAttractions ?: mutableListOf()
+                                        )
+                                        updatedRegions.value =
+                                            updatedRegions.value // Update the state to trigger recomposition
+                                        onSave(updatedRegions.value)
+                                    },
                                     modifier = Modifier.align(Alignment.CenterVertically)
                                 ) {
                                     Icon(
@@ -500,6 +533,7 @@ fun ShowAttractions(
 
 }
 
+
 @Composable
 @Preview
 fun App(list: SnapshotStateList<String>) {
@@ -513,8 +547,25 @@ fun App(list: SnapshotStateList<String>) {
             }
         }
         MainPage(buttonState, list)
-        //Footer(buttonState)
+        Footer(buttonState)
 
+
+    }
+}
+@Composable
+fun Footer(state: State) {
+    Column(
+        Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Bottom,
+        horizontalAlignment = Alignment.CenterHorizontally
+
+    ) {
+        Text(
+            modifier = Modifier.background(Color.Cyan).fillMaxWidth().padding(10.dp),
+            fontSize = 15.sp,
+            textAlign = TextAlign.Center,
+            text = "You're viewing the \"$state\" page"
+        )
 
     }
 }
@@ -596,7 +647,11 @@ fun ToggleButton(list: SnapshotStateList<String>) {
                 ShowAttractions(
                     regions = regions,
                     jsonFilePath = jsonFilePath
-                )
+                ) { updatedRegions ->
+                    // Update the mutable state with the new regions
+                    updatedRegionsState.value = updatedRegions
+                    saveUpdatedAttraction(updatedRegions, jsonFilePath)
+                }
             }
 
             is FunctionType.Text -> {
