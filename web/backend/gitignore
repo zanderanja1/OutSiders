@@ -1,4 +1,0 @@
-.idea/
-.gradle/
-build/
-/src/jvmMain/kotlin/data/db/config.json
