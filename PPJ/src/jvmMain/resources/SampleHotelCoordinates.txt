@@ -1,5 +1,4 @@
-[name]ODDAJANJE SOB METKA GRETA KERŠTANJ S.P. |[address]Borovška cesta, 8 |[city]Kranjska Gora |[zipcode]4280 |[coordinates]46.4852725, 13.7939655 |[pref contact] [Telefon: 04 588 55 33]
-[name]GLORIS.SI, podjetje za svetovanje in izobraževanje, Maja Štih s.p. |[address]Smrekarjeva ulica, 24 |[city]Ljubljana |[zipcode]1000 |[coordinates]46.0708705, 14.4932273 |[pref contact] [Elektronska pošta: maja.stih@gloris.si]
+[name]GLORISS.SI, podjetje za svetovanje in izobraževanje, Maja Štih s.p.  |[address]Smrekarjeva ulica, 25  |[city]Ljubljana  |[zipcode] 1000  |[coordinates]46.0708705, 14.4932273  |[pref contact]  Elektronska pošta: maja.stih@gloris.si
 [name]NEVELA KENDA - SOBODAJALKA |[address]Trg golobarskih žrtev, 12 |[city]Bovec |[zipcode]5230 |[coordinates]46.338607, 13.5511526 |[pref contact] [Elektronska pošta: kenda.janko@gmail.com Telefon: (386)40848213]
 [name]MARINA KUMPREJ - NOSILKA DOPOLNILNE DEJAVNOSTI NA KMETIJI |[address]Šentanel, 3 |[city]Prevalje |[zipcode]2391 |[coordinates]46.5675266, 14.8679043 |[pref contact] [Elektronska pošta: kmetijaploder@hotmail.com Telefon: (386)28231104]
 [name]Trgovina-gostilna- turizem-prenočišča, Majda OZMEC s.p. |[address]Cvetkovci, 9 |[city]Podgorci |[zipcode]2273 |[coordinates]46.4120835, 16.0586499 |[pref contact] [Telefon: 02/713-00-55, Telefaks: 02/719-23-21]

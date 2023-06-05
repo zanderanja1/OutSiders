@@ -1,1 +1,469 @@
-{"Gorenjska":{"cities":{"Bled":{"nearby":{"Blejski grad":[{"name":"Grajska kapela","coordinates":[46.3683266,14.1145798]},{"name":"Grajska restavracija","coordinates":[46.370784,14.1011639]},{"name":"","coordinates":[1.0,1.0]}],"Blejski otok":[{"name":"Marijina cerkev","coordinates":[46.3721279,14.1038865]},{"name":"Proštija (razstava, spominki)","coordinates":[46.3683266,14.1145798]}],"Camping Bled":[],"Grajski kurac":[{"name":"","coordinates":[1.0,1.0]}]}}}},"a":{"cities":{"a":{"nearby":{"a":[],"b":[{"name":"","coordinates":[1.0,1.0]}],"c":[],"d":[]}}}}}
+{
+    "Gorenjska": {
+        "cities": {
+            "Bled": {
+                "nearby": {
+                    "Blejski grad": [
+                        {
+                            "name": "Grajska kapela",
+                            "coordinates": [
+                                46.3683266,
+                                14.1145798
+                            ]
+                        },
+                        {
+                            "name": "Grajska restavracija",
+                            "coordinates": [
+                                46.370784,
+                                14.1011639
+                            ]
+                        },
+                        {
+                            "name": "",
+                            "coordinates": [
+                                1.0,
+                                1.0
+                            ]
+                        }
+                    ],
+                    "Blejski otok": [
+                        {
+                            "name": "Marijina cerkev",
+                            "coordinates": [
+                                46.3721279,
+                                14.1038865
+                            ]
+                        },
+                        {
+                            "name": "Proštija (razstava, spominki)",
+                            "coordinates": [
+                                46.3683266,
+                                14.1145798
+                            ]
+                        }
+                    ],
+                    "Camping Bled": [],
+                    "Grajski kurac": [
+                        {
+                            "name": "",
+                            "coordinates": [
+                                1.0,
+                                1.0
+                            ]
+                        }
+                    ]
+                }
+            },
+            "Maribor": {
+                "nearby": {
+                    "Betnava": [
+                        {
+                            "name": "Dvorec Betnava",
+                            "coordinates": [
+                                46.5282733,
+                                15.6396461
+                            ]
+                        },
+                        {
+                            "name": "Park gradu Betnava",
+                            "coordinates": [
+                                46.5282733,
+                                15.6396461
+                            ]
+                        },
+                        {
+                            "name": "Čebelarski center Maribor",
+                            "coordinates": [
+                                46.528777,
+                                15.6384074
+                            ]
+                        }
+                    ],
+                    "Koroška vrata": [
+                        {
+                            "name": "Fontana",
+                            "coordinates": [
+                                46.5660029,
+                                15.6231823
+                            ]
+                        },
+                        {
+                            "name": "Kipi Angeli",
+                            "coordinates": [
+                                46.5546503,
+                                15.6458812
+                            ]
+                        },
+                        {
+                            "name": "Koblarjev zaliv",
+                            "coordinates": [
+                                46.5655271,
+                                15.6191649
+                            ]
+                        },
+                        {
+                            "name": "Račji dvor",
+                            "coordinates": [
+                                46.5719795,
+                                15.6292521
+                            ]
+                        },
+                        {
+                            "name": "Stadion Ljudski vrt",
+                            "coordinates": [
+                                46.56260409999999,
+                                15.6405703
+                            ]
+                        }
+                    ],
+                    "Magdalena": [
+                        {
+                            "name": "Europark",
+                            "coordinates": [
+                                46.5535917,
+                                15.6530349
+                            ]
+                        },
+                        {
+                            "name": "Hotel Tabor",
+                            "coordinates": [
+                                46.5501764,
+                                15.6371261
+                            ]
+                        },
+                        {
+                            "name": "Magdalenski park",
+                            "coordinates": [
+                                46.5518035,
+                                15.6453878
+                            ]
+                        },
+                        {
+                            "name": "Magdalenski trg",
+                            "coordinates": [
+                                46.5542238,
+                                15.6474061
+                            ]
+                        },
+                        {
+                            "name": "Pekarna",
+                            "coordinates": [
+                                46.5509109,
+                                15.6436399
+                            ]
+                        },
+                        {
+                            "name": "Srednja zdravstvena in kozmetična šola",
+                            "coordinates": [
+                                46.5495993,
+                                15.6450409
+                            ]
+                        },
+                        {
+                            "name": "Trg revolucije",
+                            "coordinates": [
+                                46.5542824,
+                                15.645666
+                            ]
+                        },
+                        {
+                            "name": "Univerzitetni klinični center (UKC)",
+                            "coordinates": [
+                                46.5546503,
+                                15.6458812
+                            ]
+                        }
+                    ],
+                    "Mariborski park": [
+                        {
+                            "name": "Kalvarija",
+                            "coordinates": [
+                                46.5688395,
+                                15.6386922
+                            ]
+                        },
+                        {
+                            "name": "Mestni park",
+                            "coordinates": [
+                                46.5651078,
+                                15.6471522
+                            ]
+                        },
+                        {
+                            "name": "Mestni vrh",
+                            "coordinates": [
+                                46.5683863,
+                                15.646103
+                            ]
+                        },
+                        {
+                            "name": "Piramida",
+                            "coordinates": [
+                                46.5682403,
+                                15.6521554
+                            ]
+                        },
+                        {
+                            "name": "Ribniško selo-Ribnik",
+                            "coordinates": [
+                                46.5749544,
+                                15.6428558
+                            ]
+                        },
+                        {
+                            "name": "Trije ribniki",
+                            "coordinates": [
+                                46.5708901,
+                                15.647282
+                            ]
+                        }
+                    ],
+                    "Okolica starega mestnega jedra": [
+                        {
+                            "name": "Avtobusna postaja z okolico",
+                            "coordinates": [
+                                46.560609,
+                                15.6560654
+                            ]
+                        },
+                        {
+                            "name": "Frančiškanska cerkev",
+                            "coordinates": [
+                                46.5599503,
+                                15.6502012
+                            ]
+                        },
+                        {
+                            "name": "Mladinska ulica",
+                            "coordinates": [
+                                46.5635374,
+                                15.6411977
+                            ]
+                        },
+                        {
+                            "name": "Rakušev trg",
+                            "coordinates": [
+                                46.5613797,
+                                15.6511417
+                            ]
+                        },
+                        {
+                            "name": "Titova cesta",
+                            "coordinates": [
+                                46.5509634,
+                                15.6499628
+                            ]
+                        },
+                        {
+                            "name": "Trg Borisa Kidriča",
+                            "coordinates": [
+                                46.5620427,
+                                15.6557723
+                            ]
+                        },
+                        {
+                            "name": "Trg Leona Štuklja",
+                            "coordinates": [
+                                46.5591368,
+                                15.6485991
+                            ]
+                        },
+                        {
+                            "name": "Trg generala Maistra",
+                            "coordinates": [
+                                46.5612587,
+                                15.6492064
+                            ]
+                        },
+                        {
+                            "name": "Trg svobode",
+                            "coordinates": [
+                                46.5603298,
+                                15.6490706
+                            ]
+                        },
+                        {
+                            "name": "Ulica kneza Koclja",
+                            "coordinates": [
+                                46.5572975,
+                                15.6513883
+                            ]
+                        }
+                    ],
+                    "Radvanje": [
+                        {
+                            "name": "Pekrska gorca",
+                            "coordinates": [
+                                46.54812829999999,
+                                15.6107696
+                            ]
+                        },
+                        {
+                            "name": "Radiotelevizija Slovenija Regionalni RTV Center",
+                            "coordinates": [
+                                46.566393,
+                                15.6667459
+                            ]
+                        },
+                        {
+                            "name": "Villa rustica in slovansko grobišče",
+                            "coordinates": [
+                                46.5546503,
+                                15.6458812
+                            ]
+                        }
+                    ],
+                    "Reka Drava": [
+                        {
+                            "name": "coordinates",
+                            "coordinates": [
+                                46.55430343207409,
+                                15.68664281081988
+                            ]
+                        }
+                    ],
+                    "Staro mestno jedro": [
+                        {
+                            "name": "Glavni trg",
+                            "coordinates": [
+                                46.5574593,
+                                15.6455567
+                            ]
+                        },
+                        {
+                            "name": "Gosposka ulica",
+                            "coordinates": [
+                                46.5590778,
+                                15.6465988
+                            ]
+                        },
+                        {
+                            "name": "Grajski trg",
+                            "coordinates": [
+                                46.559957,
+                                15.6479731
+                            ]
+                        },
+                        {
+                            "name": "Gregorčičeva in Slovenska ulica",
+                            "coordinates": [
+                                46.561213,
+                                15.649315
+                            ]
+                        },
+                        {
+                            "name": "Lent",
+                            "coordinates": [
+                                46.5565381,
+                                15.6448783
+                            ]
+                        },
+                        {
+                            "name": "Rotovški trg",
+                            "coordinates": [
+                                46.5586737,
+                                15.6455077
+                            ]
+                        },
+                        {
+                            "name": "Slomškov trg",
+                            "coordinates": [
+                                46.5590721,
+                                15.6444011
+                            ]
+                        },
+                        {
+                            "name": "Strossmayerjeva in Gospejna ulica",
+                            "coordinates": [
+                                46.559725,
+                                15.641927
+                            ]
+                        },
+                        {
+                            "name": "Vetrinjska ulica",
+                            "coordinates": [
+                                46.5585147,
+                                15.6478292
+                            ]
+                        },
+                        {
+                            "name": "Židovska ulica",
+                            "coordinates": [
+                                46.5571136,
+                                15.6477312
+                            ]
+                        }
+                    ],
+                    "Tabor": [
+                        {
+                            "name": "Dvorana Tabor",
+                            "coordinates": [
+                                46.5494876,
+                                15.6356941
+                            ]
+                        },
+                        {
+                            "name": "Kadetnica",
+                            "coordinates": [
+                                46.548064,
+                                15.630636
+                            ]
+                        },
+                        {
+                            "name": "Ledena dvorana",
+                            "coordinates": [
+                                46.5497394,
+                                15.6338327
+                            ]
+                        },
+                        {
+                            "name": "Park mladih",
+                            "coordinates": [
+                                46.5477886,
+                                15.6432042
+                            ]
+                        }
+                    ],
+                    "Vožnja s splavom na Dravi": [
+                        {
+                            "name": "coordinates",
+                            "coordinates": [
+                                46.55430343207409,
+                                15.68664281081988
+                            ]
+                        }
+                    ],
+                    "Vožnja z ladjico na Dravi": [
+                        {
+                            "name": "coordinates",
+                            "coordinates": [
+                                46.5546503,
+                                15.6458812
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "a": {
+        "cities": {
+            "a": {
+                "nearby": {
+                    "a": [],
+                    "b": [
+                        {
+                            "name": "",
+                            "coordinates": [
+                                1.0,
+                                1.0
+                            ]
+                        }
+                    ],
+                    "c": [],
+                    "d": []
+                }
+            }
+        }
+    }
+}

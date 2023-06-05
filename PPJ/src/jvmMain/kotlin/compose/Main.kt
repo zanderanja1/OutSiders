@@ -27,11 +27,15 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
-import kotlinx.serialization.*
-import java.awt.TextField
+import okhttp3.OkHttpClient
+import okhttp3.Request
+
+
 import Region
 import Attraction
 import City
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 
 
 enum class State {
@@ -42,6 +46,7 @@ enum class State {
 sealed class FunctionType {
     object Attractions : FunctionType()
     object Text : FunctionType()
+    object Send : FunctionType()
 }
 
 val NAV_BAR_HEIGHT = 30.dp
@@ -57,71 +62,73 @@ fun AddLocationToList(
     val nameInput = remember { mutableStateOf(TextFieldValue()) }
     val latInput = remember { mutableStateOf(TextFieldValue()) }
     val lngInput = remember { mutableStateOf(TextFieldValue()) }
+    Column {
+        Row(modifier = Modifier.padding(10.dp)) {
+            TextField(
+                value = regionInput.value,
+                onValueChange = { regionInput.value = it },
+                label = { Text("Region") }
 
-    Row(modifier = Modifier.padding(10.dp)) {
-        TextField(
-            value = regionInput.value,
-            onValueChange = { regionInput.value = it },
-            label = { Text("Region") }
+            )
+            Spacer(modifier = Modifier.padding(10.dp))
+            TextField(
+                value = cityInput.value,
+                onValueChange = { cityInput.value = it },
+                label = { Text("City") }
+            )
+            Spacer(modifier = Modifier.padding(10.dp))
+            TextField(
+                value = latInput.value,
+                onValueChange = { latInput.value = it },
+                label = { Text("Latitude") }
+            )
 
-        )
-        Spacer(modifier = Modifier.padding(10.dp))
-        TextField(
-            value = cityInput.value,
-            onValueChange = { cityInput.value = it },
-            label = { Text("City") }
-        )
-        Spacer(modifier = Modifier.padding(10.dp))
-        TextField(
-            value = latInput.value,
-            onValueChange = { latInput.value = it },
-            label = { Text("Latitude") }
-        )
-
-    }
-    Row(modifier = Modifier.padding(10.dp)) {
-        TextField(
-            value = nameInput.value,
-            onValueChange = { nameInput.value = it },
-            label = { Text("Name") }
-        )
-        Spacer(modifier = Modifier.padding(10.dp))
-        TextField(
-            value = nearbyInput.value,
-            onValueChange = { nearbyInput.value = it },
-            label = { Text("Nearby") }
-        )
-        Spacer(modifier = Modifier.padding(10.dp))
-        TextField(
-            value = lngInput.value,
-            onValueChange = { lngInput.value = it },
-            label = { Text("Longitude") }
-        )
-    }
-
-    Button(
-        onClick = {
-            val region = regionInput.value.text
-            val city = cityInput.value.text
-            val nearby = nearbyInput.value.text
-            val name = nameInput.value.text
-            val lat = latInput.value.text.toDoubleOrNull() ?: 0.0
-            val lng = lngInput.value.text.toDoubleOrNull() ?: 0.0
-            SaveAttractionToJSON(updatedRegions, region, name, nearby, listOf(lat, lng))
-
-            // Clear the input values
-            regionInput.value = TextFieldValue()
-            cityInput.value = TextFieldValue()
-            nearbyInput.value = TextFieldValue()
-            nameInput.value = TextFieldValue()
-            latInput.value = TextFieldValue()
-            lngInput.value = TextFieldValue()
         }
-    ) {
-        Text("Save")
+        Row(modifier = Modifier.padding(10.dp)) {
+            TextField(
+                value = nameInput.value,
+                onValueChange = { nameInput.value = it },
+                label = { Text("Name") }
+            )
+            Spacer(modifier = Modifier.padding(10.dp))
+            TextField(
+                value = nearbyInput.value,
+                onValueChange = { nearbyInput.value = it },
+                label = { Text("Nearby") }
+            )
+            Spacer(modifier = Modifier.padding(10.dp))
+            TextField(
+                value = lngInput.value,
+                onValueChange = { lngInput.value = it },
+                label = { Text("Longitude") }
+            )
+        }
+
+        Button(
+            onClick = {
+                val region = regionInput.value.text
+                val city = cityInput.value.text
+                val nearby = nearbyInput.value.text
+                val name = nameInput.value.text
+                val lat = latInput.value.text.toDoubleOrNull() ?: 0.0
+                val lng = lngInput.value.text.toDoubleOrNull() ?: 0.0
+                SaveAttractionToJSON(updatedRegions, region, name, nearby, listOf(lat, lng))
+
+                // Clear the input values
+                regionInput.value = TextFieldValue()
+                cityInput.value = TextFieldValue()
+                nearbyInput.value = TextFieldValue()
+                nameInput.value = TextFieldValue()
+                latInput.value = TextFieldValue()
+                lngInput.value = TextFieldValue()
+            }
+        ) {
+            Text("Save")
+        }
     }
 
 }
+
 fun SaveAttractionToJSON(
     regions: MutableState<Map<String, Region>>,
     regionName: String,
@@ -170,21 +177,31 @@ fun SaveAttractionToJSON(
     // Save the updated regions to the JSON file
     val json = Json { ignoreUnknownKeys = true }
     val updatedJsonContent = json.encodeToString(regions.value)
-    File("src/jvmMain/resources/output_sample.json").writeText(updatedJsonContent)
+    File("PPJ/src/jvmMain/resources/output_sample2.json").writeText(updatedJsonContent)
 }
 fun saveUpdatedAttraction(regions: Map<String, Region>, jsonFilePath: String) {
     val json = Json { ignoreUnknownKeys = true }
     val updatedJsonContent = json.encodeToString(regions)
     File(jsonFilePath).writeText(updatedJsonContent)
 }
+fun storeListToFile(data: List<String>) {
+    val fileName = "SampleHotelCoordinates.txt"
+    val file = File("PPJ/src/jvmMain/resources/$fileName")
+    file.bufferedWriter().use { writer ->
+        for (item in data) {
+           writer.write(item)
+            writer.newLine()
+        }
+    }
+}
+
 @Composable
 fun ShowHotels(list: SnapshotStateList<String>) {
     Box {
         val state = rememberLazyListState()
         LazyColumn(Modifier.fillMaxSize().padding(end = 12.dp), state) {
             itemsIndexed(list) { index, item ->
-                val cleanedItem = item
-                val hotelAttributes = cleanedItem.split('|')
+                val hotelAttributes = item.split('|')
                 val name = hotelAttributes[0].replace("\\[.*?]".toRegex(), "")
                 val address = hotelAttributes[1].replace("\\[.*?]".toRegex(), "")
                 val city = hotelAttributes[2].replace("\\[.*?]".toRegex(), "")
@@ -197,7 +214,7 @@ fun ShowHotels(list: SnapshotStateList<String>) {
 
                 Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
                     var isEditing by remember { mutableStateOf(false) }
-                    var editedText by remember { mutableStateOf(TextFieldValue(address + " " + city + " " + zipcode + " " + coordinates + " " + contactInfo)) }
+                    var editedText by remember { mutableStateOf(TextFieldValue("[name]"+ name + " |[address]" + address + " |[city]" + city + " |[zipcode] " +zipcode +" |[coordinates]"+ coordinates + " |[pref contact] " + contactInfo)) }
 
                     if (isEditing) {
                         TextField(
@@ -207,7 +224,7 @@ fun ShowHotels(list: SnapshotStateList<String>) {
                         )
                     } else {
                         Text(
-                            text = (address + " " + city + " " + zipcode + " " + coordinates + " " + contactInfo),
+                            text = "$address $city $zipcode $coordinates $contactInfo",
                             modifier = Modifier.weight(1f)
                         )
                     }
@@ -215,8 +232,8 @@ fun ShowHotels(list: SnapshotStateList<String>) {
                     IconButton(
                         onClick = {
                             if (isEditing) {
-                                val updatedItem = "[${editedText.text}]"
-                                list[list.indexOf(item)] = updatedItem
+                                list[index] = editedText.text
+                                storeListToFile(list)
                             }
                             isEditing = !isEditing
                         },
@@ -231,6 +248,7 @@ fun ShowHotels(list: SnapshotStateList<String>) {
                     IconButton(
                         onClick = {
                             list.remove(item)
+                            storeListToFile(list)
                         },
                         modifier = Modifier.align(Alignment.CenterVertically)
                     ) {
@@ -251,6 +269,7 @@ fun ShowHotels(list: SnapshotStateList<String>) {
     }
 }
 
+
 @Composable
 fun MainPage(state: State, list: SnapshotStateList<String>) {
     val stateVertical = rememberScrollState(0)
@@ -267,7 +286,10 @@ fun MainPage(state: State, list: SnapshotStateList<String>) {
 
 
             State.Generator -> {
-                Text("Generator")
+
+                val regions = getRegionsFromJson("PPJ/src/jvmMain/resources/output_sample2.json")
+                val updatedRegionsState = remember { mutableStateOf(regions) }
+                AddLocationToList(updatedRegionsState)
             }
 
             else -> {
@@ -386,7 +408,6 @@ fun ShowAttractions(
 
                         itemsIndexed(attractions) { index, attraction ->
                             val attractionIndex = index;
-                            // Call your composable function here
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier
@@ -592,6 +613,28 @@ fun ToggleButton(list: SnapshotStateList<String>) {
         Row() {
             Button(
                 onClick = {
+                    currentFunction.value = FunctionType.Send
+                },
+                modifier =
+                Modifier
+                    .fillMaxWidth().weight(1f)
+                    .height(NAV_BAR_HEIGHT),
+
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Cyan)
+
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Send,
+                    contentDescription = "Menu",
+                    modifier = Modifier.size(18.dp),
+
+                    tint = Color.Black
+
+                )
+                Text(text = "Send")
+            }
+            Button(
+                onClick = {
                     currentFunction.value = FunctionType.Attractions
                 },
                 modifier =
@@ -640,10 +683,10 @@ fun ToggleButton(list: SnapshotStateList<String>) {
         Spacer(Modifier.padding(bottom = 10.dp))
         when (currentFunction.value) {
             is FunctionType.Attractions -> {
-                val regions = getRegionsFromJson("PPJ/src/jvmMain/resources/output_sample.json")
+                val regions = getRegionsFromJson("PPJ/src/jvmMain/resources/output_sample2.json")
                 val updatedRegionsState = remember { mutableStateOf(regions) }
                 //val regions = updatedRegionsState.value
-                val jsonFilePath = "PPJ/src/jvmMain/resources/output_sample.json"
+                val jsonFilePath = "PPJ/src/jvmMain/resources/output_sample2.json"
                 ShowAttractions(
                     regions = regions,
                     jsonFilePath = jsonFilePath
@@ -655,13 +698,171 @@ fun ToggleButton(list: SnapshotStateList<String>) {
             }
 
             is FunctionType.Text -> {
-                ShowHotels(list)
+                val list2 = remember { list }
+                ShowHotels(list2)
+            }
+            is FunctionType.Send -> {
+                parseAttractionsJson("PPJ/src/jvmMain/resources/output_sample2.json")
             }
 
         }
     }
 
 }
+@Serializable
+data class RegionResponse(val name: String, val _id: String)
+@Serializable
+data class CityResponse(val name: String, val _id: String, val regionId: String)
+@Serializable
+data class DistrictResponse(val name: String, val _id: String, val cityId: String)
+
+fun sendRegionRequest(regionName: String):String? {
+    val client = OkHttpClient()
+    val url = "http://localhost:3001/region/"
+    val requestBody = "name=$regionName"
+
+    val request = Request.Builder()
+        .url(url)
+        .post(requestBody.toRequestBody("application/x-www-form-urlencoded".toMediaTypeOrNull()))
+        .build()
+
+    try {
+        val response = client.newCall(request).execute()
+        val responseBody = response.body?.string()
+
+        // Handle the response if needed
+        println("Response: $responseBody")
+        val regionResponse = responseBody?.let { Json.decodeFromString<RegionResponse>(it) }
+
+        // Extract the _id value
+        val id = regionResponse?._id
+        return id
+    } catch (e: Exception) {
+        // Handle any exceptions
+        e.printStackTrace()
+    }
+    return null
+}
+fun sendCityRequest(cityName: String, regionId:String):String? {
+    val client = OkHttpClient()
+    val url = "http://localhost:3001/city/"
+    if(cityName!="Maribor")
+        return null;
+    val requestBody = "name=$cityName&regionId=$regionId"
+
+    val request = Request.Builder()
+        .url(url)
+        .post(requestBody.toRequestBody("application/x-www-form-urlencoded".toMediaTypeOrNull()))
+        .build()
+
+    try {
+        val response = client.newCall(request).execute()
+        val responseBody = response.body?.string()
+
+        // Handle the response if needed
+        println("Response: $responseBody")
+        val cityResponse = responseBody?.let { Json.decodeFromString<CityResponse>(it) }
+
+        // Extract the _id value
+        val id = cityResponse?._id
+        return id
+    } catch (e: Exception) {
+        // Handle any exceptions
+        e.printStackTrace()
+    }
+    return null
+}
+fun sendDistrictRequest(nearbyName: String, cityId:String):String? {
+    val client = OkHttpClient()
+    val url = "http://localhost:3001/district/"
+
+    val requestBody = "name=$nearbyName&cityId=$cityId"
+
+    val request = Request.Builder()
+        .url(url)
+        .post(requestBody.toRequestBody("application/x-www-form-urlencoded".toMediaTypeOrNull()))
+        .build()
+
+    try {
+        val response = client.newCall(request).execute()
+        val responseBody = response.body?.string()
+
+        // Handle the response if needed
+        println("Response: $responseBody")
+        val cityResponse = responseBody?.let { Json.decodeFromString<DistrictResponse>(it) }
+
+        // Extract the _id value
+        val id = cityResponse?._id
+        println("district id: " + id)
+        return id
+    } catch (e: Exception) {
+        // Handle any exceptions
+        e.printStackTrace()
+    }
+    return null
+}
+fun sendAttractionRequest(attractionName: String, districtId:String, coordinates: List<Double>):Boolean {
+    val client = OkHttpClient()
+    val url = "http://localhost:3001/attraction/"
+    val coordinatesJson = Json.encodeToString(coordinates)
+    val requestBody = "name=$attractionName&districtId=$districtId&coordinates=$coordinatesJson"
+
+    val request = Request.Builder()
+        .url(url)
+        .post(requestBody.toRequestBody("application/x-www-form-urlencoded".toMediaTypeOrNull()))
+        .build()
+
+    try {
+        val response = client.newCall(request).execute()
+        val responseBody = response.body?.string()
+        println(responseBody)
+
+        return response.code == 200
+
+
+        // Handle the response if needed
+    } catch (e: Exception) {
+        // Handle any exceptions
+        e.printStackTrace()
+    }
+    return false
+}
+fun parseAttractionsJson(jsonFilePath: String) {
+    val regions = getRegionsFromJson(jsonFilePath)
+    regions.forEach { (regionName, region) ->
+        region.cities.forEach { (cityName, city) ->
+            city.nearby.forEach { (nearbyName, attractions) ->
+                attractions.forEach { (attractionName, coordinates) ->
+                    if (attractionName == "coordinates") {
+                        println(attractions + ": " + coordinates.toString() + " district" + nearbyName + " city: " + cityName + " " + "region " + regionName)
+                    } else {
+                        println(nearbyName + ": " + coordinates.toString() + " district" + nearbyName + " city: " + cityName + " " + "region " + regionName)
+                    }
+
+                    // Send the POST request
+                    val regionId=sendRegionRequest(regionName)
+                    var cityId:String?;
+                    if (regionId != null) {
+                       cityId = sendCityRequest(cityName,regionId)
+                        println("cityId:" + cityId)
+                        if(cityId != null){
+                            val districtId= sendDistrictRequest(nearbyName,cityId)
+                            if(districtId != null){
+                                if(sendAttractionRequest(attractionName,districtId,coordinates)){
+                                    println(attractionName + " usepsno dodan")
+                                }
+                                else
+                                    println(attractionName + " neuspesno dodan")
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}
+
 
 fun main() = application {
     Window(onCloseRequest = ::exitApplication, title = "") {
