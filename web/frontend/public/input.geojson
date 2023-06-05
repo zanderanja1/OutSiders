@@ -1,0 +1,710 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name:": "Rakušev Trg"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6511417,
+          46.5613797
+        ],
+        "type": "Point"
+      },
+      "id": 0
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Titova cesta"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6499628,
+          46.5509634
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Trg Borisa Kidrića"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6557723,
+          46.5620427
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Trg Leona Štiklja"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6485991,
+          46.5591368
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Trg Generala Maistra"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6492064,
+          46.5612587
+        ],
+        "type": "Point"
+      },
+      "id": 4
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Trg Svobode"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6490706,
+          46.5603298
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ulica kneza Koclja"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6513883,
+          46.5572975
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pekrska gorca"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6107696,
+          46.54812829999999
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Radiotelevizija Slovenija Regionalni RTV Center"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6667459,
+          46.566393
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Villa rustica in slovansko grobišče"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6458812,
+          46.5546503
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "coordinates"
+      },
+      "geometry": {
+        "coordinates": [
+          15.68664281081988,
+          46.55430343207409
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Glavni trg"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6455567,
+          46.5574593
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Gosposka ulica"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6465988,
+          46.5590778
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Grajski trg"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6479731,
+          46.559957
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Gregorčičeva in Slovenska ulica"
+      },
+      "geometry": {
+        "coordinates": [
+          15.649315,
+          46.561213
+        ],
+        "type": "Point"
+      },
+      "id": 14
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lent"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6448783,
+          46.5565381
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rotovški trg"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6455077,
+          46.5586737
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Slomškov trg"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6444011,
+          46.5590721
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Strossmayerjeva in Gospejna ulica"
+      },
+      "geometry": {
+        "coordinates": [
+          15.641927,
+          46.559725
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Vetrinjska ulica"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6478292,
+          46.5585147
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Židovska ulica"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6477312,
+          46.5571136
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Dvorana Tabor"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6356941,
+          46.5494876
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kadetnica"
+      },
+      "geometry": {
+        "coordinates": [
+          15.630636,
+          46.548064
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ledena dvorana"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6338327,
+          46.5497394
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Park mladih"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6432042,
+          46.5477886
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "coordinates"
+      },
+      "geometry": {
+        "coordinates": [
+          15.68664281081988,
+          46.55430343207409
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+      "name": "coordinates"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6458812,
+          46.5546503
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Dvorec Betnava"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6396461,
+          46.5282733
+        ],
+        "type": "Point"
+      },
+      "id": 0
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Park gradu Betnava"
+      },
+      "geometry": {
+        "coordinates": [
+          15.641069112569056,
+          46.53385289256909
+        ],
+        "type": "Point"
+      },
+      "id": 1
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "coordinates": [
+          15.6384074,
+          46.528777
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Fontana"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6231823,
+          46.5660029
+        ],
+        "type": "Point"
+      },
+      "id": 3
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kipi Angeli"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6458812,
+          46.5546503
+        ],
+        "type": "Point"
+      },
+      "id": 4
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Koblarjev zaliv"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6191649,
+          46.5655271
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Račji dvor"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6292521,
+          46.5719795
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Stadion Ljudski vrt"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6405703,
+          46.56260409999999
+        ],
+        "type": "Point"
+      },
+      "id": 7
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Europark"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6530349,
+          46.5535917
+        ],
+        "type": "Point"
+      },
+      "id": 8
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hotel Tabor"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6371261,
+          46.5501764
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Magdalenski park"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6453878,
+          46.5518035
+        ],
+        "type": "Point"
+      },
+      "id": 10
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name ": "Magdalenski trg"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6474061,
+          46.5542238
+        ],
+        "type": "Point"
+      },
+      "id": 11
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pekarna"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6436399,
+          46.5509109
+        ],
+        "type": "Point"
+      },
+      "id": 12
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Srednja zdravstvena in kozmetična šola"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6450409,
+          46.5495993
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Trg revolucije"
+      },
+      "geometry": {
+        "coordinates": [
+          15.645666,
+          46.5542824
+        ],
+        "type": "Point"
+      },
+      "id": 14
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Univerzitetni klinični center (UKC)"
+      },
+      "geometry": {
+        "coordinates": [
+          15.649220714003746,
+          46.553370598400505
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kalvarija"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6386922,
+          46.5688395
+        ],
+        "type": "Point"
+      },
+      "id": 16
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mestni park"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6471522,
+          46.5651078
+        ],
+        "type": "Point"
+      },
+      "id": 17
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mestni Vrh"
+      },
+      "geometry": {
+        "coordinates": [
+          15.646103,
+          46.5683863
+        ],
+        "type": "Point"
+      },
+      "id": 18
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Trije ribniki"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6521554,
+          46.5682403
+        ],
+        "type": "Point"
+      },
+      "id": 19
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ribniško selo-Ribnik"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6428558,
+          46.5749544
+        ],
+        "type": "Point"
+      },
+      "id": 20
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "coordinates": [
+          15.647282,
+          46.5708901
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Avtobusna postaja z okolico"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6560654,
+          46.560609
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Frančiškanska cerkev"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6502012,
+          46.5599503
+        ],
+        "type": "Point"
+      },
+      "id": 23
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mladinska ulica"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6411977,
+          46.5635374
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rakušev trg"
+      },
+      "geometry": {
+        "coordinates": [
+          15.6511417,
+          46.5613797
+        ],
+        "type": "Point"
+      },
+      "id": 25
+    }
+  ]
+}

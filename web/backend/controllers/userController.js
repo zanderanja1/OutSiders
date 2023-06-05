@@ -56,27 +56,24 @@ module.exports = {
      * userController.create()
      */
     create: async function (req, res) {
-        var password;
-        bcrypt.hash(req.body.username, 10, function (err, hash) {
-            if (err) {
-                return res.status(500).json('error');
-            }
-            password = hash;
-        });
         try {
             const User = await UserModel.initialize();
-
+    
             const usernameExists = await User.findOne({ username: req.body.username });
             if (usernameExists) {
                 console.log("username exists")
                 return res.status(500).json('Username already exists');
             }
-
+    
             const emailExists = await User.findOne({ email: req.body.email });
             if (emailExists) {
                 console.log("email exists")
                 return res.status(500).json('Email already exists');
             }
+    
+            // Hash the password
+            const password = await bcrypt.hash(req.body.password, 10);
+    
             const newUser = {
                 name: req.body.username,
                 password: password,
@@ -86,13 +83,13 @@ module.exports = {
             const result = await User.insertOne(newUser);
             console.log('result:', result);
             res.status(201).json(newUser)
-
+    
         } catch (err) {
             console.log('Error inserting data:', err);
             return res.status(500).json('Error inserting data');
         }
     },
-
+    
 
     /**
      * userController.update()
