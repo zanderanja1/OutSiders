@@ -43,12 +43,15 @@ userSchema.statics.authenticate = function(username, password, callback){
 			if(result === true){
 				return callback(null, user);
 			} else{
-				return callback();
+				var err = new Error("Incorrect password.");
+				err.status = 401;
+				return callback(err);
 			}
 		});
 		 
 	});
 }
+
 
 //var User = mongoose.model('user', userSchema);
 //module.exports = User;

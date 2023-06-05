@@ -2,6 +2,8 @@ import { useContext, useState } from 'react';
 import { UserContext } from '../userContext';
 import { Navigate } from 'react-router-dom';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function Login(){
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -30,15 +32,31 @@ function Login(){
     }
 
     return (
-        <form onSubmit={Login}>
-            {userContext.user ? <Navigate replace to="/" /> : ""}
-            <input type="text" name="username" placeholder="Username"
-             value={username} onChange={(e)=>(setUsername(e.target.value))}/>
-             <input type="password" name="password" placeholder="Password"
-             value={password} onChange={(e)=>(setPassword(e.target.value))}/>
-             <input type="submit" name="submit" value="Log in"/>
-             <label>{error}</label>
-        </form>
+       <div className="container mt-5">
+            <div className="row justify-content-center">
+                <div className="col-md-6">
+                    <div className="card">
+                        <div className="card-body">
+                            {userContext.user ? <Navigate replace to="/" /> : ""}
+                            <form onSubmit={Login}>
+                                <div className="mb-3">
+                                    <label htmlFor="username" className="form-label">Username</label>
+                                    <input type="text" className="form-control" id="username" placeholder="Username"
+                                        value={username} onChange={(e) => (setUsername(e.target.value))} />
+                                </div>
+                                <div className="mb-3">
+                                    <label htmlFor="password" className="form-label">Password</label>
+                                    <input type="password" className="form-control" id="password" placeholder="Password"
+                                        value={password} onChange={(e) => (setPassword(e.target.value))} />
+                                </div>
+                                <button type="submit" className="btn btn-primary">Log in</button>
+                            </form>
+                            {error && <div className="mt-3 alert alert-danger">{error}</div>}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }
 

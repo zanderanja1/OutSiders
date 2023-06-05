@@ -1,33 +1,34 @@
 import { useContext } from "react";
 import { UserContext } from "../userContext";
 import { Link } from "react-router-dom";
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Header(props) {
-    return (
-        <header>
-            <h1>{props.title}</h1>
-            <nav>
-                <ul>
-                    <li><Link to='/'>Home</Link></li>
-                    <UserContext.Consumer>
-                        {context => (
-                            context.user ?
-                                <>
-                                    <li><Link to='/publish'>Publish</Link></li>
-                                    <li><Link to='/profile'>Profile</Link></li>
-                                    <li><Link to='/logout'>Logout</Link></li>
-                                </>
-                            :
-                                <>
-                                    <li><Link to='/login'>Login</Link></li>
-                                    <li><Link to='/register'>Register</Link></li>
-                                </>
+    const { user } = useContext(UserContext);
 
-                        )}
-                    </UserContext.Consumer>
-                </ul>
-            </nav>
-        </header >
+    return (
+        <Navbar bg="light" expand="lg">
+            <Navbar.Brand as={Link} to="/">{props.title}</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="mr-auto">
+                    {user ?
+                        <>
+                            <Nav.Link as={Link} to="/attractions">Attractions</Nav.Link>
+                            <Nav.Link as={Link} to="/graphs">Graphs</Nav.Link>
+                            <Nav.Link as={Link} to="/map">Map</Nav.Link>
+                            <Nav.Link as={Link} to="/logout">Logout</Nav.Link>
+                        </>
+                        :
+                        <>
+                            <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                            <Nav.Link as={Link} to="/register">Register</Nav.Link>
+                        </>
+                    }
+                </Nav>
+            </Navbar.Collapse>
+        </Navbar>
     );
 }
 

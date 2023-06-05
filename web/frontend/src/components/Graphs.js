@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Bar, Pie, Scatter } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Row, Col, Dropdown, Card } from 'react-bootstrap';
 
 function App() {
   const [graphType, setGraphType] = useState('bar');
@@ -9,7 +10,7 @@ function App() {
 
   useEffect(() => {
     fetchAttractionData();
-  }, []);
+  }, [graphType]);
 
   async function fetchAttractionData() {
     try {
@@ -20,7 +21,6 @@ function App() {
         fetch('http://localhost:3001/attraction/list').then((res) => res.json())
       ]);
 
-      // Process the data and set it to the state
       const processedData = processAttractionsData(attractions, districts, cities, regions);
       setAttractionsData(processedData);
     } catch (error) {
@@ -29,9 +29,6 @@ function App() {
   }
 
   function processAttractionsData(attractions, districts, cities, regions) {
-    // Process the data here based on your requirements
-    // Return the processed data in a suitable format for the chosen graph type
-
     if (graphType === 'scatter') {
       const scatterData = attractions.map((attraction) => {
         const district = districts.find((dist) => dist.name === attraction.district.name);
@@ -69,6 +66,10 @@ function App() {
   }
 
   function renderGraph() {
+    const chartOptions = {
+        maintainAspectRatio: false
+    };
+
     if (graphType === 'bar') {
       const chartData = {
         labels: attractionsData.labels,
@@ -84,9 +85,8 @@ function App() {
       };
 
       return (
-        <div>
-          <h2>Attractions by Region (Bar Chart)</h2>
-          <Bar data={chartData} />
+        <div style={{ height: "70vh", width: "80vw", display: 'flex', justifyContent: 'center' }}>
+            <Bar data={chartData} options={chartOptions} />
         </div>
       );
     } else if (graphType === 'pie') {
@@ -103,9 +103,8 @@ function App() {
       };
 
       return (
-        <div>
-          <h2>Attractions by Region (Pie Chart)</h2>
-          <Pie data={chartData} />
+        <div style={{ height: "70vh", width: "80vw", display: 'flex', justifyContent: 'center' }}>
+            <Pie data={chartData} options={chartOptions} />
         </div>
       );
     } else if (graphType === 'scatter') {
@@ -122,9 +121,8 @@ function App() {
       };
 
       return (
-        <div>
-          <h2>Attractions by Location (Scatter Plot)</h2>
-          <Scatter data={scatterData} />
+        <div style={{ height: "70vh", width: "80vw", display: 'flex', justifyContent: 'center' }}>
+            <Scatter data={scatterData} options={chartOptions} />
         </div>
       );
     }
@@ -132,16 +130,40 @@ function App() {
     return null;
   }
 
+
   return (
-    <div>
-      <h1>My App</h1>
-      <select value={graphType} onChange={(e) => setGraphType(e.target.value)}>
-        <option value="bar">Bar Chart</option>
-        <option value="pie">Pie Chart</option>
-        <option value="scatter">Scatter Plot</option>
-      </select>
-      {renderGraph()}
-    </div>
+    <Container fluid>
+      <Row>
+        <Col>
+          <h1 className="h3 mb-2 text-gray-800">Graphs</h1>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Dropdown onSelect={(e) => setGraphType(e)}>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+              {graphType.charAt(0).toUpperCase() + graphType.slice(1)}
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item eventKey="bar">Bar Chart</Dropdown.Item>
+              <Dropdown.Item eventKey="pie">Pie Chart</Dropdown.Item>
+              <Dropdown.Item eventKey="scatter">Scatter Plot</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Card className="shadow mb-4">
+            <Card.Header className="py-3">
+              <h6 className="m-0 font-weight-bold text-primary">{`Attractions by Region (${graphType.charAt(0).toUpperCase() + graphType.slice(1)} Chart)`}</h6>
+            </Card.Header>
+            <Card.Body>{renderGraph()}</Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
