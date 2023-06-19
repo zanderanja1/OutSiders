@@ -1,0 +1,18 @@
+City "City E" ( [ 5.0 , 5.0 ] , [ 5.0 , 6.0 ] , [ 6.0 , 6.0 ] , [ 6.0 , 5.0 ] , [ 5.0 , 5.0 ] ) {
+    District "District E" ( [ 5.0 , 5.0 ] , [ 5.0 , 5.5 ] , [ 5.5 , 5.5 ] , [ 5.5 , 5.0 ] , [ 5.0 , 5.0 ] ) {
+        Street "Street E" [ 5.0  ,5.0 , 5.3 ] {
+            400
+            Curve "Street E" "Avenue E"
+            NewlyPaved
+        }
+        Building "Building E" ( [ 5.1 , 5.1 ] , [ 5.15 , 5.1 ] , [ 5.15 , 5.15 ] , [ 5.1 , 5.15 ] , [ 5.1 , 5.1 ] ) {
+            Commercial
+            5
+            18
+            12
+            25
+            {Gym, RooftopAccess}
+        }
+    }
+    TrafficLight "Street E" "Avenue E" [ 5.0 , 5.0 ];
+}
